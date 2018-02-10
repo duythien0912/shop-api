@@ -3,12 +3,14 @@ import path from "path";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import bluebird from "bluebird";
 
 import auth from "./routers/auth";
 
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());
+mongoose.Promise = bluebird;
 mongoose.connect(process.env.MONGODB_URL);
 
 app.use("/api/auth", auth);
