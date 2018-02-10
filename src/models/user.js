@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const schema = new mongoose.Schema(
   {
@@ -7,5 +9,20 @@ const schema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+schema.methods.isValidPassword = function isValidPassword(password) {
+  return bcrypt.compareSync(password, this.passwordHash);
+};
+
+schema.methods.generateJWT = function generateJWT() {
+  return jwt.sign({ email: this.email }, "secretkey");
+};
+
+schema.methods.toAuthJson = function toAuthJson() {
+  return {
+    email: this.email,
+    token: this.generateJWT()
+  };
+};
 
 export default mongoose.model("User", schema);
