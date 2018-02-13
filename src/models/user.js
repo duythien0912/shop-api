@@ -36,7 +36,13 @@ schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
 };
 
 schema.methods.generateJWT = function generateJWT() {
-  return jwt.sign({ email: this.email }, process.env.JWT_SECRET);
+  return jwt.sign(
+    {
+      email: this.email,
+      confirmed: this.confirmed
+    },
+    process.env.JWT_SECRET
+  );
 };
 
 schema.methods.toAuthJson = function toAuthJson() {
