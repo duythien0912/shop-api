@@ -13,7 +13,7 @@ function setup() {
   });
 }
 
-export default function sendConfirmationEmail(user) {
+export function sendConfirmationEmail(user) {
   const tranport = setup();
   const email = {
     from,
@@ -23,6 +23,22 @@ export default function sendConfirmationEmail(user) {
         Wellcome to shop. Please confirm your email.
 
         ${user.generateConfirmationUrl()}
+        `
+  };
+
+  tranport.sendMail(email);
+}
+
+export function sendResetPasswordEmail(user) {
+  const tranport = setup();
+  const email = {
+    from,
+    to: user.email,
+    subject: "Reset password from shop",
+    text: `
+        To reset password. Please click this link.
+
+        ${user.generateResetPasswordUrl()}
         `
   };
 
