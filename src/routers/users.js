@@ -1,13 +1,13 @@
 import express from "express";
-import Users from "../models/user";
+import User from "../models/user";
 import parseErrors from "../utils/parseError";
-import sendConfirmationEmail from "../mailer";
+import { sendConfirmationEmail } from "../mailer";
 
 const router = express.Router();
 
 router.post("/", (req, res) => {
   const { email, password } = req.body.user;
-  const user = new Users({ email });
+  const user = new User({ email });
   user.setPassword(password);
   user.setConfirmationToken();
   user
