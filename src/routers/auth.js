@@ -11,7 +11,9 @@ router.post("/", (req, res) => {
     if (user && user.isValidPassword(credentials.password)) {
       res.json({ user: user.toAuthJson() });
     } else {
-      res.status(400).json({ errors: { global: "Invalid credentials" } });
+      res
+        .status(400)
+        .json({ errors: { global: "Invalid credentials" } });
     }
   });
 });
@@ -24,7 +26,9 @@ router.post("/confirmation", (req, res) => {
     { new: true }
   ).then(
     user =>
-      user ? res.json({ user: user.toAuthJson() }) : res.status(400).json({})
+      user
+        ? res.json({ user: user.toAuthJson() })
+        : res.status(400).json({})
   );
 });
 
@@ -34,9 +38,9 @@ router.post("/reset_password_request", (req, res) => {
       sendResetPasswordEmail(user);
       res.json({});
     } else {
-      res
-        .status(400)
-        .json({ errors: { global: "There is no user with this email" } });
+      res.status(400).json({
+        errors: { global: "There is no user with this email" }
+      });
     }
   });
 });
@@ -62,7 +66,9 @@ router.post("/reset_password", (req, res) => {
           user.setPassword(password);
           user.save().then(() => res.json({}));
         } else {
-          res.status(404).json({ errors: { global: "Invalid token" } });
+          res
+            .status(404)
+            .json({ errors: { global: "Invalid token" } });
         }
       });
     }
